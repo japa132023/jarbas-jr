@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Minha Vida">
+<meta name="description" content="Seu assistente pessoal de vida — tarefas, academia, estudos e gastos">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Minha Vida 🚀</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  :root {
+    --c1: #7C3AED; --c1l: #EDE9FE; --c1d: #5B21B6;
+    --c2: #0EA5E9; --c2l: #E0F2FE;
+    --c3: #10B981; --c3l: #D1FAE5;
+    --c4: #F59E0B; --c4l: #FEF3C7;
+    --bg: #F8FAFC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  body { background: var(--bg); color: #1E293B; padding-bottom: 20px; }
+
+  /* Ajuste na sobreposição da tela de PIN/Modais */
+  .hidden { display: none !important; pointer-events: none; }
+
+  #pin-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: white; z-index: 9999; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+
+  /* Ajuste do Toast para não obstruir botões */
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #1E293B; color: white; padding: 12px 24px; border-radius: 50px;
+    font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000; transition: opacity 0.3s; opacity: 0; pointer-events: none;
+  }
+  #toast.show { opacity: 1; }
+
+  /* Layout Base */
+  header { background: var(--c1); color: white; padding: 2rem 1rem; border-radius: 0 0 24px 24px; margin-bottom: 1.5rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 0 1rem; }
+  .card { background: white; padding: 1.5rem; border-radius: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; }
+  .card i { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+</style>
+</head>
+<body>
+
+<div id="pin-screen">
+  <h2 id="pin-setup-label">Digite seu PIN</h2>
+  <div id="pin-dots" style="margin: 20px 0; font-size: 24px; letter-spacing: 10px;">••••</div>
+  <div id="pin-msg" style="color: red; font-size: 14px;"></div>
+</div>
+
+<header>
+  <h1>Olá, JR 🚀</h1>
+  <p>O que vamos fazer hoje?</p>
+</header>
+
+<div class="grid">
+  <div class="card" style="border-bottom: 4px solid var(--c1);">
+    <i class="ti ti-list-check" style="color: var(--c1);"></i>
+    <span>Tarefas</span>
+  </div>
+  <div class="card" style="border-bottom: 4px solid var(--c3);">
+    <i class="ti ti-barbell" style="color: var(--c3);"></i>
+    <span>Academia</span>
+  </div>
+  </div>
+
+<div id="toast"></div>
+
+<script>
+  // Logica de Notificação (Toast) Corrigida
+  function toast(message) {
+    const t = document.getElementById('toast');
+    t.textContent = message;
+    t.classList.add('show');
+    
+    // Remove a mensagem após 3 segundos automaticamente
+    setTimeout(() => {
+      t.classList.remove('show');
+    }, 3000);
+  }
+
+  // Correção da Obstrução (Tela de PIN)
+  function unlockApp(enteredPin) {
+    const savedPin = '1234'; // Exemplo
+    if(enteredPin === savedPin) {
+      document.getElementById('pin-screen').classList.add('hidden');
+      toast('Acesso liberado!');
+    } else {
+      document.getElementById('pin-msg').textContent = 'PIN Incorreto';
+    }
+  }
+
+  // Simulação de fechamento inicial (Para fins de teste do layout)
+  // No seu código real, isso é controlado pelo savePin/getSavedPin
+  setTimeout(() => {
+     document.getElementById('pin-screen').classList.add('hidden');
+  }, 1000);
+
+</script>
+</body>
+</html>
